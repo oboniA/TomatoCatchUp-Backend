@@ -1,0 +1,1 @@
+pip install Flask Pillow joblib scikit-learn scikit-image opencv-python numpy tensorflow Pillow pymongo "pymongo[srv]"
