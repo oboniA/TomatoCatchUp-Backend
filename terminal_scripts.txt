@@ -1,0 +1,10 @@
+python -m venv venv
+
+.\venv\Scripts\Activate.ps1 
+<<<<<if error>>>>>: 
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\venv\Scripts\Activate.ps1 
+
+pip install Flask Pillow joblib scikit-learn scikit-image opencv-python numpy tensorflow pymongo "pymongo[srv]"
+
+python app.py

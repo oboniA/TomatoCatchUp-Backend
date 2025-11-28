@@ -11,10 +11,16 @@ ENV/
 # TensorFlow / Keras models
 *.h5
 *.hdf5
+*.keras
+*.pb
+*.ckpt
 
 # IDE / editor files
 .vscode/
 .idea/
+
+# Node.js modules
+node_modules/
 
 # Logs
 *.log
