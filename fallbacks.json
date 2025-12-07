@@ -1,0 +1,18 @@
+{
+  "description": {
+    "en": "Description not available",
+    "bn": "বর্ণনা পাওয়া যায়নি"
+  },
+  "symptoms": {
+    "en": "Symptoms details not available",
+    "bn": "লক্ষণ সম্পর্কিত তথ্য পাওয়া যায়নি"
+  },
+  "prevention": {
+    "en": "Prevention info not available",
+    "bn": "প্রতিরোধ সম্পর্কিত তথ্য পাওয়া যায়নি"
+  },
+  "treatment": {
+    "en": "Treatment info not available",
+    "bn": "চিকিৎসা সম্পর্কিত তথ্য পাওয়া যায়নি"
+  }
+}

@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 import tensorflow as tf
 import numpy as np
+import json
 from PIL import Image
 from image_processing import preprocessing 
 from pymongo import MongoClient
@@ -15,11 +16,15 @@ app = Flask(__name__)
 # OR from here: 
 custom_cnn_model = tf.keras.models.load_model("Experimental_trial_26_model.keras")
 
+# load fallback data from local JSON file
+with open("fallbacks.json", "r", encoding="utf-8") as f:
+    fallback = json.load(f)
+
 # connect to MongoDB Atlas
 try: 
-    client = MongoClient('mongodb+srv://user1:user1@cluster0.emqwe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    client = MongoClient('mongodb+srv://obonianower_db_user:OhRYFaTunkNwhJEf@cluster0.vwlfbwi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
     db = client['tomato_plants']
-    collection = db['tomat_plant_diseases']
+    collection = db['tomato_plant_diseases']
     print("Connected to MongoDB")
 except Exception as e:
     print(f"Error: {e}")
@@ -76,22 +81,25 @@ def classify():
         disease_details = collection.find_one({"name": label})
         print("Disease details from DB:", disease_details)
         
-        # set-up output from MongoDB Atlas database
+        # set-up output from MongoDB Atlas database; fallbacks from .json file
         if disease_details:
-            description = disease_details.get("description", "description not available")
-            prevention = disease_details.get("prevention", "prevention details not available")
-            symptoms = disease_details.get("symptoms", "symptoms details not available")
-            treatment = disease_details.get("treatment", "treatment details not available")
+            description = disease_details.get("description", fallback["description"])
+            symptoms = disease_details.get("symptoms", fallback["symptoms"])
+            prevention = disease_details.get("prevention", fallback["prevention"])
+            treatment = disease_details.get("treatment", fallback["treatment"])
             read_more = disease_details.get("read_more", None)
         else:
-           description = prevention = symptoms = treatment = "Information unvailable"
+           description = fallback["description"]
+           symptoms = fallback["symptoms"]
+           prevention = fallback["prevention"]
+           treatment = fallback["treatment"]
            read_more = None
         
         result = {
             'prediction': label,
             'description': description,
-            'prevention': prevention,
             'symptoms': symptoms,
+            'prevention': prevention,
             'treatment': treatment,
             'read_more': read_more
         }
