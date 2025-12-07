@@ -2,6 +2,9 @@ from flask import Flask, request, render_template, jsonify
 import tensorflow as tf
 import numpy as np
 import json
+from dotenv import load_dotenv
+from pymongo import MongoClient
+import os
 from PIL import Image
 from image_processing import preprocessing 
 from pymongo import MongoClient
@@ -22,7 +25,9 @@ with open("fallbacks.json", "r", encoding="utf-8") as f:
 
 # connect to MongoDB Atlas
 try: 
-    client = MongoClient('mongodb+srv://obonianower_db_user:OhRYFaTunkNwhJEf@cluster0.vwlfbwi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+    load_dotenv()
+    mongodb_uri = os.getenv("MongoDB_URI")
+    client = MongoClient(mongodb_uri)
     db = client['tomato_plants']
     collection = db['tomato_plant_diseases']
     print("Connected to MongoDB")
